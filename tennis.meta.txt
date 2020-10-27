@@ -1,0 +1,5 @@
+Outlook:Sunny,Overcast,Rain
+Temperature:Hot,Mild,Cool
+Humidity:High,Normal
+Wind:Strong,Weak
+PlayTennis:Yes,No
