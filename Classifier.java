@@ -2,6 +2,7 @@ package edu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Classifier {
 		phases = new ArrayList<>();
 		cases = 0;
 
-		System.out.println("Meta fFile " + meta);
+		System.out.println("Meta fFile : " + meta);
 		while (m.hasNextLine()) {
 			String temp = m.nextLine();
 			int find = temp.indexOf(":");
@@ -39,7 +40,7 @@ public class Classifier {
 		classifications = new int[size];
 		// System.out.println(size);
 
-		System.out.println("Training file " + train);
+		System.out.println("Training file : " + train);
 		while (t.hasNextLine()) {
 			String temp = t.nextLine();
 			String[] line = temp.split(",");
@@ -56,6 +57,7 @@ public class Classifier {
 			}
 		}
 
+		//close scanners
 		m.close();
 		t.close();
 	}
@@ -112,6 +114,8 @@ public class Classifier {
 
 	public void getTestingPhase(String file) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(file));
+		int accurateProb = 0, testCases = 0;
+		
 		while (sc.hasNextLine()) {
 			String temp = sc.nextLine();
 			String[] line = temp.split(",");
@@ -135,15 +139,20 @@ public class Classifier {
 			P.sort(Collections.reverseOrder(new ProbComparator()));
 			System.out.format("Max Probability is %.4f %s", P.get(0).getProb(), P.get(0).getCate());
 			System.out.println(); System.out.println();
+			
+			if(P.get(0).getCate().equals(line[line.length - 1])) {
+				accurateProb += 1; //increment accurate probability case
+			}
+			
+			testCases++; //increment test cases
 		}
-
-//		String cas[] = {"Sunny", "Cool", "High", "Strong"};	
-//		for(int j=0; j<cas.length; j++) {
-//			int ind = attributes.get(j).indexOf(cas[j]);
-//			System.out.println("Index of " + cas[j] + ":" + ind);
-//			System.out.println("value is " + phases.get(j)[ind][1]);
-//		}
-
+		
+		NumberFormat form = NumberFormat.getPercentInstance();
+		float acc = (float) accurateProb / testCases;
+		System.out.format("Accurate Probability(ies) = %d, Test Cases = %d", accurateProb, testCases);
+		System.out.println();
+		System.out.println("Accuracy : "+ form.format(acc));
+		System.out.println();
 		sc.close();
 	}
 
@@ -165,23 +174,49 @@ public class Classifier {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-//		System.out.println("Enter meta file and training file separated by a space (meta.txt training.txt) :");
+//		System.out.println("Enter meta file (as meta.txt):");
 //		Scanner sc1 = new Scanner(System.in);
-//		String str = sc1.nextLine();
-//		String files[] = str.split(" ");
-//		Classifier classify = new Classifier(files[0], files[1]);
-//		System.out.println();
-//		classify.printAttributes();
-//		System.out.println();
-//		//classify.printMatrix();
-//		classify.createLearningPhase();
-//		System.out.println();
-//		classify.printPhases();
-//		System.out.println();
-//		System.out.print("Enter testing file: ");
-//		Scanner sc2 = new Scanner(System.in);
-//		String test = sc2.next();
-//		classify.getTestingPhase(test);
+//		String str1 = sc1.nextLine();
+//		boolean train = true;
+//		do {
+//			System.out.println("Enter the training file (as training.txt):");
+//			Scanner sc2 = new Scanner(System.in);
+//			String str2 = sc2.nextLine();
+//			
+//			//String files[] = str.split(" ");
+//			Classifier classify = new Classifier(str1, str2);
+//			System.out.println();
+//			classify.printAttributes();
+//			System.out.println();
+//			//classify.printMatrix();
+//			classify.createLearningPhase();
+//			System.out.println();
+//			classify.printPhases();
+//			System.out.println();
+//			System.out.print("Enter testing file: ");
+//			Scanner sc3 = new Scanner(System.in);
+//			String test = sc3.next();
+//			classify.getTestingPhase(test);
+//			
+//			System.out.println();
+//			System.out.println("You wish to train another file? (Yes or No) ");
+//			Scanner te = new Scanner(System.in);
+//			String temp = te.next().toLowerCase();
+//			if(temp.equals("yes"))
+//				train = true;
+//			else if(temp.equals("no")) {
+//				train = false;
+//				System.out.println("Bye!");
+//			}
+//			
+//			//close scanners
+//			sc1.close();
+//			sc2.close();
+//			sc3.close();
+//			te.close();
+//		}while(train);
+		
+		
 		
 		Classifier classify = new Classifier("car.meta.txt", "car.train.txt");
 		System.out.println();
@@ -194,8 +229,6 @@ public class Classifier {
 		System.out.println();
 		classify.getTestingPhase("car.test.txt");
 
-//		sc1.close();
-//		sc2.close();
 	}
 
 }
