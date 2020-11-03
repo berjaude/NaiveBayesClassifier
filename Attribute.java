@@ -30,4 +30,16 @@ class Attribute{
 		}
 		return ret;
 	}
+	
+	public int indexOf(String str) {
+		int ret = 0;
+		boolean find = false;
+		for(int i=0; i<value.length && !find; i++) {
+			if(value[i].equals(str)) {
+				ret = i;
+				find = true;
+			}
+		}
+		return ret;
+	}
 }

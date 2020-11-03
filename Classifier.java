@@ -125,15 +125,10 @@ public class Classifier {
 				for (int j = 0; j < line.length - 1; j++) {
 					int ind = attributes.get(j).indexOf(line[j]);
 					rep = rep * phases.get(j)[ind][i] / classifications[i];
-//					System.out.format("current probability for %s : %f", line[j], rep);
-//					System.out.println();
 				}
 				rep = rep * classifications[i] / cases;
 				Prob t = new Prob(rep, attributes.get(attrSize - 1).getValue()[i]);
-				P.add(t);
-//				System.out.format("Possible probability for %s : %f", attributes.get(attrSize - 1).getValue()[i]
-//						, rep);
-//				System.out.println();
+				P.add(t);;
 			}
 			// sort list in descending order
 			P.sort(Collections.reverseOrder(new ProbComparator()));
@@ -174,51 +169,51 @@ public class Classifier {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-//		System.out.println("Enter meta file (as meta.txt):");
-//		Scanner sc1 = new Scanner(System.in);
-//		String str1 = sc1.nextLine();
-//		boolean train = true;
-//		do {
-//			System.out.println("Enter the training file (as training.txt):");
-//			Scanner sc2 = new Scanner(System.in);
-//			String str2 = sc2.nextLine();
-//			
-//			//String files[] = str.split(" ");
-//			Classifier classify = new Classifier(str1, str2);
-//			System.out.println();
-//			classify.printAttributes();
-//			System.out.println();
-//			//classify.printMatrix();
-//			classify.createLearningPhase();
-//			System.out.println();
-//			classify.printPhases();
-//			System.out.println();
-//			System.out.print("Enter testing file: ");
-//			Scanner sc3 = new Scanner(System.in);
-//			String test = sc3.next();
-//			classify.getTestingPhase(test);
-//			
-//			System.out.println();
-//			System.out.println("You wish to train another file? (Yes or No) ");
-//			Scanner te = new Scanner(System.in);
-//			String temp = te.next().toLowerCase();
-//			if(temp.equals("yes"))
-//				train = true;
-//			else if(temp.equals("no")) {
-//				train = false;
-//				System.out.println("Bye!");
-//			}
-//			
-//			//close scanners
-//			sc1.close();
-//			sc2.close();
-//			sc3.close();
-//			te.close();
-//		}while(train);
+		System.out.println("Enter meta file (as meta.txt):");
+		Scanner sc1 = new Scanner(System.in);
+		String str1 = sc1.nextLine();
+		boolean train = true;
+		Scanner sc2 = null;
+		do {
+			System.out.println("Enter the training file (as training.txt):");
+			sc2 = new Scanner(System.in);
+			String str2 = sc2.nextLine();
+			
+			//String files[] = str.split(" ");
+			Classifier classify = new Classifier(str1, str2);
+			System.out.println();
+			classify.printAttributes();
+			System.out.println();
+			//classify.printMatrix();
+			classify.createLearningPhase();
+			System.out.println();
+			classify.printPhases();
+			System.out.println();
+			System.out.print("Enter testing file: ");
+			Scanner sc3 = new Scanner(System.in);
+			String test = sc3.next();
+			classify.getTestingPhase(test);
+			
+			System.out.println();
+			System.out.println("You wish to train another file? (Yes or No) ");
+			Scanner te = new Scanner(System.in);
+			String temp = te.next().toLowerCase();
+			if(temp.equals("yes"))
+				train = true;
+			else if(temp.equals("no")) {
+				train = false;
+				System.out.println("Bye!");
+			}
+			
+			//close scanners
+			sc1.close();
+			sc2.close();
+			sc3.close();
+			te.close();
+		}while(train);
 		
 		
-		
-		Classifier classify = new Classifier("car.meta.txt", "car.train.txt");
+		Classifier classify = new Classifier("tennis.meta.txt", "tennis.train.txt");
 		System.out.println();
 		classify.printAttributes();
 		System.out.println();
@@ -227,7 +222,7 @@ public class Classifier {
 		System.out.println();
 		classify.printPhases();
 		System.out.println();
-		classify.getTestingPhase("car.test.txt");
+		classify.getTestingPhase("tennis.test.txt");
 
 	}
 

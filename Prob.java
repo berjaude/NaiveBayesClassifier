@@ -51,9 +51,10 @@ public class Prob {
 		for(Prob i : list) {
 			System.out.println(i.getProb() + " " + i.getCate());
 		}
-		 
-		//Collections.sort(list, new ProbComparator());
-		list.sort(Collections.reverseOrder(new ProbComparator()));
+		System.out.println();
+		
+		list.sort(Collections.reverseOrder(new ProbComparator())); //sort in descending order
+		//list.sort(new ProbComparator()); //sort in ascending order
 		
 		System.out.println("After sorting: ");
 		for(Prob i : list) {
